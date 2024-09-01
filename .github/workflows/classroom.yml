@@ -1,0 +1,81 @@
+name: Autograding Tests
+'on':
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Set Up
+      id: set-up
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Set Up
+        setup-command: sudo apt-get update; sudo apt-get install -y r-cran-digest
+          r-cran-knitr r-cran-rmarkdown r-cran-testthat r-cran-tidyverse; Rscript
+          -e 'library("rmarkdown");library("knitr");rmarkdown::render("Lab1_AnswerNB.Rmd")'
+        command: ls
+        timeout: 10
+    - name: Question 1
+      id: question-1
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Question 1
+        setup-command: ''
+        command: Rscript tests.R Q1
+        timeout: 10
+        max-score: 2
+    - name: Question 2
+      id: question-2
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Question 2
+        setup-command: ''
+        command: Rscript tests.R Q2
+        timeout: 10
+        max-score: 2
+    - name: Question 3
+      id: question-3
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Question 3
+        setup-command: ''
+        command: Rscript tests.R Q3
+        timeout: 10
+        max-score: 2
+    - name: Question 4
+      id: question-4
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Question 4
+        setup-command: ''
+        command: Rscript tests.R Q4
+        timeout: 10
+        max-score: 2
+    - name: Question 5
+      id: question-5
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Question 5
+        setup-command: ''
+        command: Rscript tests.R Q5
+        timeout: 10
+        max-score: 2
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        SET-UP_RESULTS: "${{steps.set-up.outputs.result}}"
+        QUESTION-1_RESULTS: "${{steps.question-1.outputs.result}}"
+        QUESTION-2_RESULTS: "${{steps.question-2.outputs.result}}"
+        QUESTION-3_RESULTS: "${{steps.question-3.outputs.result}}"
+        QUESTION-4_RESULTS: "${{steps.question-4.outputs.result}}"
+        QUESTION-5_RESULTS: "${{steps.question-5.outputs.result}}"
+      with:
+        runners: set-up,question-1,question-2,question-3,question-4,question-5
