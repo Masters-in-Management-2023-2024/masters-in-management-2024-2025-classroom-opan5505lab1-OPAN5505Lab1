@@ -1,0 +1,79 @@
+---
+title: "Lab 1 Assignment"
+output: html_notebook
+---
+
+You've been tasked to perform an analysis on the prevalence of the artist profession in the USA. Please use the artists.csv file in the code repository for your analysis. You will not have to set your working directory.
+
+Before you perform any analysis, consider what the grain of the dataset is (the grain is represented by `state`, `race`, and `type`). Some columns in the dataset are:
+
+-   `all_workers_n` - The total amount of workers for each row.
+
+-   `artists_n` - The total number of artists for each row.
+
+-   `artists_share` - Represents the ratio between `all_workers_n` and `artists_n` for each row.
+
+Additionally, please perform your work for this assignment in this R notebook. Make sure that the code that you add is inside an R code block.
+
+## Assignment Tips
+
+-   Place your code inside this Notebook.
+
+-   Do not use the `install.packages` function in this notebook.
+
+-   Do not set your working directory in this notebook; Notebooks assume that your working directory is whatever folder that the Notebook resides in.
+
+-   Do not alter or delete the `artists.csv` or `tests.R` files.
+
+## Load the packages necessary for this assignment
+
+You will likely need the readr and dplyr packages.
+
+```{r}
+#This is an R code block. Use this R code block to load the readr and dplyr packages
+
+```
+
+## 1. Read the artists file, making sure to account for NA values. (2 points)
+
+Make sure to use a parameter in your function to explicitly note "not applicable" values. Use the `read_csv` function from the `readr` package. Name the resulting variable `artists`.
+
+*Use an R code block here to read the artists.csv file*
+
+## 2. State with the highest number of artists (2 points)
+
+You want to figure out which state has the highest number of artists. Write R code that sums the `artists_n` column by `state` (name the column with the summed `artists_n` , `artists_n`), then sorts the `state` in descending order by the total number of artists. Name the resulting data frame `artists_by_state`. The data frame should have two columns.
+
+*Use an R code block to show your work.*
+
+## 3. Highest average `artists_share` by race (2 points)
+
+You want to figure out what value for `race` has the highest `artists_share`. Compute the average for the `artists_share` field for each `race` (name the resulting column `artists_share`). Then sort the `artists_share` field in descending order. Name the resulting data frame `avg_artists_share`. The data frame should have two columns.
+
+*Use an R code block to show your work.*
+
+## 4. Third lowest average `artists_share` for `state` and `race` (2 points)
+
+You are curious about which combination of `state` and `race` has the **lowest** average `artists_share`. Compute the average `artists_share` for each combination of `state` and `race` (name the resulting column `artists_share`). Then sort the output by average `artists_share` in ascending order. Name the resulting data frame `artists_state_race`. The data frame should have three columns.
+
+**HINT: You can group by multiple columns.**
+
+*Use an R code block to show your work.*
+
+## 5. Type with largest number of non-designer artists (2 points)
+
+You would like to figure out which `type` of artist has the highest sum of `artists_n` in the dataset but you do not want to include designers in this calculation. Filter out "Designers" from the dataset, then calculate the sum of `artists_n` for each `type` of artist (call the resulting column `artists_n`). Then sort the sum of `artists_n` in descending order. Name the resulting data frame `non_designers`. The data frame should have two columns.
+
+*Use an R code block to show your work.*
+
+# Do not edit
+
+```{r}
+for (i in c('artists', 'artists_by_state', 'avg_artists_share', 'artists_state_race', 'non_designers')) {
+  if (!exists(i)) {
+    assign(i, NULL)
+  }
+}
+rm(i)
+save(artists, artists_by_state, avg_artists_share, artists_state_race, non_designers, file = 'answers.rda')
+```
